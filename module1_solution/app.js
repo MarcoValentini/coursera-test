@@ -2,13 +2,27 @@
 	'use strict';
 
 	angular
-		.module('myApp', [])
-		.controller('myCtrl', myCtrl);
+		.module('LunchCheck', [])
+		.controller('LunchCheckController', LunchCheckController);
 		
-		myCtrl.$inject = ['$scope']; // TO PROTECT THE CODE FROM MINIFICATION
+		LunchCheckController.$inject = ['$scope']; // TO PROTECT THE CODE FROM MINIFICATION
 
-		function myCtrl($scope) {
+		function LunchCheckController($scope) {
+			$scope.menuCheck = menuCheck;
+			$scope.message = '';
 
+			function menuCheck() {
+				if ($scope.lunchMenu != undefined) {
+					var menuArray = $scope.lunchMenu.split(',');
+					var filteredMenuArray = menuArray.filter(function (e) {
+						e = e.trim();
+						return e != '';
+					});
+					$scope.message = filteredMenuArray.length > 3 ? 'Too much!' : 'Enjoy!';
+				} else {
+					$scope.message = 'Please enter data first';
+				}
+			}
 		}
 
 })();
